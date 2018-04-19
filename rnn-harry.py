@@ -13,7 +13,6 @@ LAYER_NUM = 2
 BATCH_SIZE = 50
 DROPOUT_RATE = 0.3
 GENERATE_LENGTH = 500
-MAX_EPOCH = 100
 WEIGHTS = 'weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, 1)
 TRAIN = True
 
@@ -58,8 +57,6 @@ if TRAIN or WEIGHTS == '':
         if epochs % 1 == 0:
             print('saving weights to file...')
             model.save_weights('weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, epochs))
-        if epochs == MAX_EPOCH:
-            break
 
 # Else, loading the trained weights and performing generation only
 elif WEIGHTS != '':
