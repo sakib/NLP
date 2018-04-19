@@ -49,14 +49,14 @@ model.add(Dense(y.shape[1], activation='softmax'))
 if train:
     print('training...')
     #define the checkpoint
-    filepath = "results/alice/weights-improvement-{epoch:02d}-{loss:4f}-bigger.hdf5"
+    filepath = "weights/alice/improvement-{epoch:02d}-{loss:4f}-bigger.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
     callbacks_list = [checkpoint]
     model.compile(loss='categorical_crossentropy', optimizer='adam')
     model.fit(X, y, epochs=50, batch_size=64, callbacks=callbacks_list)
 else:
     #load network weights
-    model.load_weights('results/alice/weights-improvement-50-1.2-bigger.hdf5')
+    model.load_weights('weights/alice/improvement-50-1.2-bigger.hdf5')
     model.compile(loss='categorical_crossentropy', optimizer='adam')
     #pick a random seed
     start = numpy.random.randint(0, len(dataX)-1)
