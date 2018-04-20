@@ -7,19 +7,19 @@ from keras.layers.wrappers import TimeDistributed
 from rnn_utils import generate_text, load_data
 
 # constants
-SEQ_LENGTH = 50
-HIDDEN_DIM = 500
+SEQ_LENGTH = 100
+HIDDEN_DIM = 700
 LAYER_NUM = 2
 BATCH_SIZE = 50
 DROPOUT_RATE = 0.3
 GENERATE_LENGTH = 500
-WEIGHTS = 'weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, 1)
+#WEIGHTS = 'weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, 1)
+WEIGHTS = ''
 TRAIN = True
 
 # parse the data
 print('\nloading data...')
-#files = [open('data/hp/hp{}.txt'.format(i), 'r') for i in range(1, 8, 1) if i != 3]
-files = [open('data/hp/hp1.txt', 'r')]
+files = [open('data/hp/hp{}.txt'.format(i), 'r') for i in range(1, 8, 1) if i != 3]
 X, y, VOCAB_SIZE, ix_to_char = load_data(files, SEQ_LENGTH)
 
 # build the model, lstm, but can replace with gru or simplernn
@@ -53,8 +53,7 @@ if TRAIN or WEIGHTS == '':
         epochs += 1
         print('generating text...')
         generate_text(model, GENERATE_LENGTH, VOCAB_SIZE, ix_to_char)
-        #if epochs % 10 == 0:
-        if epochs % 1 == 0:
+        if epochs % 10 == 0:
             print('saving weights to file...')
             model.save_weights('weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, epochs))
 
