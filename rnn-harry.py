@@ -1,4 +1,3 @@
-#!/home/ec2-user/anaconda3/bin/python
 import numpy as np
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
@@ -13,9 +12,9 @@ LAYER_NUM = 2
 BATCH_SIZE = 50
 DROPOUT_RATE = 0.3
 GENERATE_LENGTH = 500
-#WEIGHTS = 'weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, 1)
+#WEIGHTS = 'weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, 300)
 WEIGHTS = ''
-TRAIN = True
+TRAIN = False
 
 # parse the data
 print('\nloading data...')
@@ -43,6 +42,7 @@ else:
     epochs = int(WEIGHTS[WEIGHTS.rfind('_') + 1:WEIGHTS.find('.')])
     print('\nloading weights from epoch {}...'.format(epochs))
     model.load_weights(WEIGHTS)
+    print('loaded.')
 
 # Training if there is no trained weights specified
 if TRAIN or WEIGHTS == '':
@@ -52,7 +52,8 @@ if TRAIN or WEIGHTS == '':
         model.fit(X, y, batch_size=BATCH_SIZE, verbose=1, epochs=1)
         epochs += 1
         print('generating text...')
-        generate_text(model, GENERATE_LENGTH, VOCAB_SIZE, ix_to_char)
+        #generate_text(model, GENERATE_LENGTH, VOCAB_SIZE, ix_to_char)
+        generate_text(model, 50, VOCAB_SIZE, ix_to_char)
         if epochs % 10 == 0:
             print('saving weights to file...')
             model.save_weights('weights/hp/checkpoint_layer_{}_hidden_{}_epoch_{}.hdf5'.format(LAYER_NUM, HIDDEN_DIM, epochs))
